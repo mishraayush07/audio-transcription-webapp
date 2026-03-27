@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📊 Transcription Report</h1>
+
+    <!-- 🎧 AUDIO PLAYER -->
+    <div class="card">
+        <h2>🎧 Audio Playback</h2>
+        <audio controls>
+            <source src="/uploads/{{ audio_file }}">
+        </audio>
+    </div>
+
+    <!-- 📄 TRANSCRIPT -->
+    <div class="card">
+        <h2>Translated Transcript</h2>
+        <p>{{ transcript }}</p>
+
+        <a href="/download_txt?transcript={{ transcript|urlencode }}&summary={{ summary|urlencode }}" class="btn green">
+            Download TXT
+        </a>
+
+        <a href="/download_json?transcript={{ transcript|urlencode }}&summary={{ summary|urlencode }}" class="btn blue">
+            Download JSON
+        </a>
+    </div>
+
+    <!-- 🧠 SUMMARY -->
+    <div class="card">
+        <h2>Translated Summary</h2>
+        <p>{{ summary }}</p>
+
+        <a href="/download_txt?transcript={{ transcript|urlencode }}&summary={{ summary|urlencode }}" class="btn green">
+            Download TXT
+        </a>
+
+        <a href="/download_json?transcript={{ transcript|urlencode }}&summary={{ summary|urlencode }}" class="btn blue">
+            Download JSON
+        </a>
+    </div>
+
+    <!-- 📦 EXPORT -->
+    <div class="card">
+        <h2>📦 Export Full Report</h2>
+
+        <a href="/download_txt?transcript={{ transcript|urlencode }}&summary={{ summary|urlencode }}" class="btn green">
+            Full TXT
+        </a>
+
+        <a href="/download_json?transcript={{ transcript|urlencode }}&summary={{ summary|urlencode }}" class="btn blue">
+            Full JSON
+        </a>
+    </div>
+
+    <button onclick="window.location.href='/upload_page'">⬅ Back</button>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="card dashboard">
+    <h2>Hello {{ name }} 🎉</h2>
+    <p>Welcome to TranscribeFlow</p>
+
+    <button onclick="window.location.href='/upload_page'">
+        Upload Audio
+    </button>
+
+    <button class="logout-btn" onclick="window.location.href='/logout'">
+        Logout
+    </button>
+</div>
+
+</body>
+</html>

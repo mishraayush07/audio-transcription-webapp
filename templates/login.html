@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-page">
+
+<div class="card">
+    <h2>🎧 TranscribeFlow Login</h2>
+
+    <form method="POST" action="/login">
+        <input type="email" name="email" placeholder="Enter Email" required>
+        <input type="password" name="password" placeholder="Enter Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <p style="margin-top:15px;">
+        Don't have an account?
+        <a href="/register_page">Register</a>
+    </p>
+</div>
+
+</body>
+</html>

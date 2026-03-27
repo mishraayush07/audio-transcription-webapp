@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TranscribeFlow</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- 🔹 SIDEBAR -->
+    <aside class="sidebar">
+        <h2>🎧 TranscribeFlow</h2>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="#">History</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </aside>
+
+    <!-- 🔹 MAIN -->
+    <main class="main">
+
+        <!-- 🔹 HEADER -->
+        <header class="header">
+            <h1>Audio Transcription</h1>
+            <p class="subtitle">Record or upload audio and get instant results</p>
+        </header>
+
+        <!-- 🔹 GRID -->
+        <div class="grid">
+
+            <!-- 🎤 LIVE RECORDING -->
+            <div class="card">
+                <h2>🎤 Live Recording</h2>
+
+                <div class="controls">
+                    <button id="startBtn" onclick="startRecording()">Start</button>
+                    <button id="stopBtn" onclick="stopRecording()">Stop</button>
+                </div>
+
+                <p id="status" class="status"></p>
+
+                <!-- 🎧 AUDIO PLAYER -->
+                <audio id="audioPlayer" controls></audio>
+            </div>
+
+            <!-- 📤 UPLOAD -->
+            <div class="card">
+                <h2>📤 Upload Audio</h2>
+
+                <form method="POST" action="/upload" enctype="multipart/form-data">
+                    <input type="file" name="file" required>
+                    <button type="submit">Upload & Transcribe</button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- 📄 RESULT -->
+        <div class="result" id="result"></div>
+
+    </main>
+</div>
+
+<script>
+let mediaRecorder;
+let audioChunks = [];
+
+async function startRecording() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = e => {
+        if (e.data.size > 0) audioChunks.push(e.data);
+    };
+
+    mediaRecorder.start();
+
+    document.getElementById("status").innerText = "🔴 Recording...";
+    document.getElementById("status").classList.add("active");
+}
+
+function stopRecording() {
+    mediaRecorder.stop();
+
+    mediaRecorder.onstop = async () => {
+        document.getElementById("status").innerText = "Processing...";
+        document.getElementById("status").classList.remove("active");
+
+        const blob = new Blob(audioChunks, { type: 'audio/webm' });
+
+        // 🎧 Play recorded audio
+        const audioURL = URL.createObjectURL(blob);
+        document.getElementById("audioPlayer").src = audioURL;
+
+        const formData = new FormData();
+        formData.append("audio", blob, "live.webm");
+
+        const res = await fetch("/live_transcribe", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        document.getElementById("status").innerText = "✅ Done";
+
+        document.getElementById("result").innerHTML = `
+            <div class="result-card">
+                <h3>Transcript</h3>
+                <p>${data.transcript}</p>
+            </div>
+
+            <div class="result-card">
+                <h3>Summary</h3>
+                <p>${data.summary}</p>
+            </div>
+
+            <div style="margin-top:10px;">
+                <a href="/download_txt?transcript=${encodeURIComponent(data.transcript)}&summary=${encodeURIComponent(data.summary)}" class="btn green">
+                    Download TXT
+                </a>
+
+                <a href="/download_json?transcript=${encodeURIComponent(data.transcript)}&summary=${encodeURIComponent(data.summary)}" class="btn blue">
+                    Download JSON
+                </a>
+            </div>
+        `;
+    };
+}
+</script>
+
+</body>
+</html>
