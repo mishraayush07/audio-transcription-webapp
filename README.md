@@ -40,13 +40,20 @@ pydub
 audio-transcription-webapp/
 
 │
-├── static/              # CSS, JS files
-├── templates/           # HTML templates
-├── uploads/             # Uploaded audio files
-├── app.py               # Main Flask application
-├── model.py             # AI model logic
-├── requirements.txt     # Dependencies
-└── README.md            # Project documentation
+├── static/         
+# CSS, JS files
+├── templates/        
+# HTML templates
+├── uploads/           
+# Uploaded audio files
+├── app.py          
+# Main Flask application
+├── model.py           
+# AI model logic
+├── requirements.txt 
+# Dependencies
+└── README.md       
+# Project documentation
 
 ⚙️ Installation
 1. Clone the repository
