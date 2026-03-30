@@ -5,28 +5,40 @@ This project helps users quickly understand long audio content such as lectures,
 🚀 Features:- 
 
 🎤 Upload or record audio in real-time
+
 📝 Automatic speech-to-text transcription
+
 ✂️ Smart text summarization using AI
+
 ⚡ Fast and efficient processing
+
 🌐 Simple and user-friendly web interface
 
 🛠️ Tech Stack:-
 
 Frontend: HTML, CSS, JavaScript
+
 Backend: Flask (Python)
 
 AI Models:
 Speech Recognition (e.g., Whisper / SpeechRecognition)
+
 Text Summarization (e.g., Transformers / NLP models)
 
 Libraries:
+
 flask
+
 transformers
+
 torch
+
 pydub
 
 📂 Project Structure
+
 audio-transcription-webapp/
+
 │
 ├── static/              # CSS, JS files
 ├── templates/           # HTML templates
